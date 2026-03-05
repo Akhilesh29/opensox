@@ -130,19 +130,6 @@ const Pricing = () => {
   const pathname = usePathname();
   const callbackUrl = `${pathname}#pro-price-card`;
 
-  const getDiscountEndDate = () => {
-    const today = new Date();
-    const endDate = new Date(today);
-    endDate.setDate(today.getDate() + 1);
-
-    const day = endDate.getDate();
-    const month = endDate.toLocaleDateString("en-US", { month: "long" });
-
-    return `${day} ${month}`;
-  };
-
-  const discountEndDate = getDiscountEndDate();
-
   useEffect(() => {
     const handleHashScroll = () => {
       if (window.location.hash === "#pro-price-card") {
@@ -361,10 +348,7 @@ const Pricing = () => {
               </div>
               <div className="flex flex-col lg:flex-row items-stretch justify-center gap-6">
                 <PricingCard />
-                <SecondaryPricingCard
-                  callbackUrl={callbackUrl}
-                  discountEndDate={discountEndDate}
-                />
+                <SecondaryPricingCard callbackUrl={callbackUrl} />
               </div>
             </div>
           </div>
@@ -476,13 +460,7 @@ const PricingCard = () => {
   );
 };
 
-const SecondaryPricingCard = ({
-  callbackUrl,
-  discountEndDate,
-}: {
-  callbackUrl: string;
-  discountEndDate: string;
-}) => {
+const SecondaryPricingCard = ({ callbackUrl }: { callbackUrl: string }) => {
   const premiumPlanId = process.env.NEXT_PUBLIC_YEARLY_PREMIUM_PLAN_ID;
   const planIdOk =
     typeof premiumPlanId === "string" && premiumPlanId.length > 0;
@@ -527,9 +505,6 @@ const SecondaryPricingCard = ({
               </div>
               <div className="flex items-center gap-3 mt-3 flex-wrap">
                 <p className="text-lg text-white-400">(~ ₹4,444 INR)</p>
-                <span className="px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-full text-green-400 text-sm font-medium">
-                  Discounted till {discountEndDate}
-                </span>
               </div>
             </div>
             <div className="w-full border-dashed border-border-primary px-6 lg:px-10 py-4 ">
