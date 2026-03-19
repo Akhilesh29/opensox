@@ -124,13 +124,10 @@ export const paymentService = {
         .update(`${orderId}|${paymentId}`)
         .digest("hex");
 
-      const a = Buffer.from(signature, "hex");
-      const b = Buffer.from(generatedSignatureHex, "hex");
-
-      if (a.length !== b.length) return false;
-
-      // Compare signatures securely
-      return crypto.timingSafeEqual(a, b);
+     return crypto.timingSafeEqual(
+  Buffer.from(signature),
+  Buffer.from(generatedSignatureHex)
+);
     } catch (error) {
       console.error("Signature verification error:", error);
       return false;
